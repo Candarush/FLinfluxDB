@@ -7,7 +7,7 @@ using namespace std;
 using namespace FLIDB;
 using namespace MQTTW;
 
-void MQTTDoorLoop(MosqMqttWrapper* MQTT)
+void MQTTReadLoop(MosqMqttWrapper* MQTT)
 {
     MQTT->loop_forever();
 }
@@ -31,7 +31,7 @@ int main()
     MosqMqttWrapper* MQTT = new MosqMqttWrapper("influxdbclient", "localhost", 1883);
     FLinfluxDB FLDB("127.0.0.1", 8086,"FlowerLampDB");
     mosqpp::lib_init();
-    std::thread t1 = std::thread(MQTTDoorLoop, MQTT);
+    std::thread t1 = std::thread(MQTTReadLoop, MQTT);
     std::thread t2 = std::thread(MQTTCheckLoop, FLDB, MQTT);
     t1.detach();
     t2.detach();
