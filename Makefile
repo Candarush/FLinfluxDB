@@ -4,6 +4,10 @@ CC=g++
 # Стандарт
 STD=c++11
 
+.PHONY: all
+
+all: exec clear
+
 exec: influxdb.o FLinfluxDB.o MosqMQTTWrapper.o main.o 
 	$(CC) -I"/usr/local/include" -L"/usr/local/lib" influxdb.o FLinfluxDB.o MosqMQTTWrapper.o main.o -o exec -lmosquitto -lmosquittopp 
 influxdb.o:
@@ -14,4 +18,5 @@ FLinfluxDB.o: FLinfluxDB.hpp
 	$(CC) -std=$(STD) -c FLinfluxDB.cpp -o FLinfluxDB.o 
 MosqMQTTWrapper.o: MosqMQTTWrapper.hpp
 	$(CC) -std=$(STD) -c MosqMQTTWrapper.cpp -o MosqMQTTWrapper.o
-
+clear:
+	rm -rf *.o
